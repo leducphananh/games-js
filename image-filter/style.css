@@ -1,0 +1,99 @@
+body {
+  font-family: sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the top */
+  min-height: 100vh;
+  margin: 0;
+  padding-top: 20px; /* Add some padding at the top */
+}
+
+.container {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 700px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between control groups */
+  margin-bottom: 20px;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between label and input */
+}
+
+.control-group label {
+  min-width: 120px; /* Ensure labels have consistent width */
+  font-weight: bold;
+}
+
+.control-group input[type="range"],
+.control-group select {
+  flex-grow: 1; /* Allow input/select to take available space */
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.control-group input[type="file"] {
+  padding: 5px;
+}
+
+.control-group span {
+  min-width: 50px; /* Space for percentage values */
+  text-align: right;
+}
+
+.control-group button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.control-group button#resetControls {
+  background-color: #6c757d;
+}
+
+.control-group button:hover {
+  background-color: #0056b3;
+}
+
+.control-group button#resetControls:hover {
+  background-color: #5a6268;
+}
+
+.image-display {
+  width: 100%;
+  border: 1px solid #ddd;
+  min-height: 200px; /* Minimum height for the canvas area */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+}
+
+#imageCanvas {
+  max-width: 100%;
+  max-height: 500px; /* You can adjust this */
+  display: block; /* Remove extra space below canvas */
+}

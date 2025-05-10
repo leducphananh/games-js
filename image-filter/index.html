@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Công cụ Filter Hình Ảnh</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Công cụ Filter Hình Ảnh Đơn Giản</h1>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="imageUpload">Tải ảnh lên:</label>
+          <input type="file" id="imageUpload" accept="image/*" />
+        </div>
+
+        <div class="control-group">
+          <label for="brightness">Độ sáng:</label>
+          <input type="range" id="brightness" min="0" max="200" value="100" />
+          <span id="brightnessValue">100%</span>
+        </div>
+
+        <div class="control-group">
+          <label for="contrast">Độ tương phản:</label>
+          <input type="range" id="contrast" min="0" max="200" value="100" />
+          <span id="contrastValue">100%</span>
+        </div>
+
+        <div class="control-group">
+          <label for="filter">Bộ lọc:</label>
+          <select id="filter">
+            <option value="none">Không có</option>
+            <option value="grayscale">Xám</option>
+            <option value="sepia">Nâu đỏ</option>
+            <option value="invert">Đảo ngược</option>
+            <option value="blur">Mờ (Blur)</option>
+            <option value="sharpen">Làm nét (Đơn giản)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <button id="resetControls">Reset</button>
+          <button id="downloadImage">Tải xuống ảnh</button>
+        </div>
+      </div>
+
+      <div class="image-display">
+        <canvas id="imageCanvas"></canvas>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
