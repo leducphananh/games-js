@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bé Vẽ Tranh</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎨 Bé Vẽ Tranh 🎨</h1>
+
+      <div class="toolbar">
+        <div class="tool-group">
+          <label>Màu sắc:</label>
+          <input
+            type="color"
+            id="colorPicker"
+            value="#000000"
+            style="display: none"
+          />
+          <div class="color-palette">
+            <div
+              class="color-option selected"
+              style="background-color: #000000"
+              data-color="#000000"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ff0000"
+              data-color="#ff0000"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #00ff00"
+              data-color="#00ff00"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #0000ff"
+              data-color="#0000ff"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ffff00"
+              data-color="#ffff00"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ff00ff"
+              data-color="#ff00ff"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #00ffff"
+              data-color="#00ffff"
+            ></div>
+            <div
+              class="color-option"
+              style="background-color: #ff9900"
+              data-color="#ff9900"
+            ></div>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <label>Độ dày:</label>
+          <input type="range" id="lineWidth" min="1" max="30" value="5" />
+          <span id="widthValue">5</span>px
+          <div id="thicknessPreview" style="width: 5px; height: 5px"></div>
+        </div>
+
+        <div class="tool-group">
+          <label>Công cụ:</label>
+          <button id="pencilBtn" class="tool-btn active" title="Bút chì">
+            ✏️
+          </button>
+          <button id="lineBtn" class="tool-btn" title="Đường thẳng">📏</button>
+          <button id="rectBtn" class="tool-btn" title="Hình chữ nhật">
+            ⬛
+          </button>
+          <button id="circleBtn" class="tool-btn" title="Hình tròn">⭕</button>
+          <button id="triangleBtn" class="tool-btn" title="Tam giác">🔺</button>
+          <button id="starBtn" class="tool-btn" title="Ngôi sao">⭐</button>
+          <button id="eraserBtn" class="tool-btn" title="Tẩy">🧽</button>
+          <button id="fillBtn" class="tool-btn" title="Sơn màu">🎨</button>
+        </div>
+
+        <div class="tool-group">
+          <button id="undoBtn" title="Hoàn tác">↩️</button>
+          <button id="redoBtn" title="Làm lại">↪️</button>
+          <button id="clearBtn" title="Xóa hết">🗑️</button>
+          <button id="saveBtn" title="Lưu hình">💾</button>
+        </div>
+      </div>
+
+      <div class="canvas-container">
+        <canvas id="drawingCanvas" width="800" height="500"></canvas>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

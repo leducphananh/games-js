@@ -1,0 +1,281 @@
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  margin: 0;
+  padding: 10px;
+  background-color: #f0f8ff;
+  color: #333;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #ff6b6b;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.8rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #ffd166;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.tool-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 5px 0;
+  justify-content: center;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+  margin-right: 5px;
+}
+
+button,
+.tool-btn {
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  padding: 2px;
+  margin: 3px;
+  background-color: #4ecdc4;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover,
+.tool-btn:hover {
+  background-color: #3dbeb5;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.tool-btn.active {
+  background-color: #ffe066;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+  border: 3px solid #ff6b6b;
+}
+
+#clearBtn {
+  background-color: #ff6b6b;
+}
+
+#clearBtn:hover {
+  background-color: #ff5252;
+}
+
+#saveBtn {
+  background-color: #6a5acd;
+}
+
+#saveBtn:hover {
+  background-color: #5e4ac0;
+}
+
+#undoBtn,
+#redoBtn {
+  background-color: #ff9f1c;
+}
+
+#undoBtn:hover,
+#redoBtn:hover {
+  background-color: #ff8c00;
+}
+
+#eraserBtn {
+  background-color: #a5a5a5;
+}
+
+#eraserBtn:hover {
+  background-color: #8e8e8e;
+}
+
+#fillBtn {
+  background-color: #9b59b6;
+}
+
+#fillBtn:hover {
+  background-color: #8e44ad;
+}
+
+.canvas-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+canvas {
+  border: 3px dashed #4ecdc4;
+  background-color: white;
+  display: block;
+  border-radius: 10px;
+  touch-action: none;
+  max-width: 100%;
+}
+
+.color-palette {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.color-option {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  margin: 3px;
+  transition: transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.color-option:hover {
+  transform: scale(1.2);
+}
+
+.color-option.selected {
+  border: 3px solid #333;
+  transform: scale(1.2);
+}
+
+/* Cải thiện trực quan thanh điều chỉnh độ dày */
+#lineWidth {
+  width: 150px;
+  height: 20px;
+  -webkit-appearance: none;
+  background: linear-gradient(to right, #4ecdc4 0%, #ff6b6b 100%);
+  border-radius: 10px;
+}
+
+#lineWidth::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #333;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#thicknessPreview {
+  display: inline-block;
+  background-color: #000;
+  border-radius: 50%;
+  margin-left: 10px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive CSS */
+@media (max-width: 768px) {
+  body {
+    padding: 5px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    padding: 8px;
+  }
+
+  .tool-group {
+    width: 100%;
+    justify-content: space-around;
+    margin: 2px 0;
+  }
+
+  button,
+  .tool-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    margin: 2px;
+  }
+
+  .color-option {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+  }
+
+  #lineWidth {
+    width: 120px;
+  }
+}
+
+/* Tablet optimization */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container {
+    padding: 12px;
+  }
+
+  .tool-group {
+    flex: 1;
+    min-width: 45%;
+  }
+}
+
+/* For devices in portrait mode - optimize toolbar layout */
+@media (orientation: portrait) {
+  .toolbar {
+    flex-direction: column;
+  }
+}
+
+/* For devices in landscape - optimize canvas size */
+@media (orientation: landscape) and (max-width: 900px) {
+  .toolbar {
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .tool-group {
+    flex: 1 0 45%;
+  }
+
+  canvas {
+    height: 60vh;
+  }
+}
