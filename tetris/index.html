@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +11,7 @@
         height: 100vh;
         margin: 0;
         background: linear-gradient(135deg, #1e3c72, #2a5298);
-        font-family: "Poppins", sans-serif;
+        font-family: 'Poppins', sans-serif;
         color: #fff;
       }
       #game-container {
@@ -46,7 +46,9 @@
         border: none;
         border-radius: 25px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
       }
       #pause-btn:hover,
       #menu-btn:hover {
@@ -74,7 +76,9 @@
         border: none;
         border-radius: 25px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
         margin: auto;
         margin-bottom: 20px;
       }
@@ -98,7 +102,9 @@
         border: none;
         border-radius: 25px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
       }
       .difficulty-btn:hover {
         transform: scale(1.05);
@@ -127,7 +133,9 @@
         border: none;
         border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -160,6 +168,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div id="difficulty-screen">
@@ -189,345 +198,6 @@
       <button id="menu-btn">Quay Về Màn Hình Chính</button>
     </div>
 
-    <script>
-      const canvas = document.getElementById("canvas");
-      const ctx = canvas.getContext("2d");
-      const scoreElement = document.getElementById("score");
-      const gameContainer = document.getElementById("game-container");
-      const difficultyScreen = document.getElementById("difficulty-screen");
-      const pauseBtn = document.getElementById("pause-btn");
-      const menuBtn = document.getElementById("menu-btn");
-      const continueBtn = document.getElementById("continue-btn");
-      const leftBtn = document.getElementById("left-btn");
-      const rightBtn = document.getElementById("right-btn");
-      const downBtn = document.getElementById("down-btn");
-      const rotateBtn = document.getElementById("rotate-btn");
-
-      const ROW = 20;
-      const COL = 12;
-      const BLOCK_SIZE = 20;
-      let score = 0;
-      let dropInterval;
-      let isPaused = false;
-      let gameState = null;
-
-      let board = Array(ROW)
-        .fill()
-        .map(() => Array(COL).fill(0));
-
-      const SHAPES = [
-        [[1, 1, 1, 1]], // I
-        [
-          [1, 1],
-          [1, 1],
-        ], // O
-        [
-          [0, 1, 0],
-          [1, 1, 1],
-        ], // T
-        [
-          [1, 1, 0],
-          [0, 1, 1],
-        ], // S
-        [
-          [0, 1, 1],
-          [1, 1, 0],
-        ], // Z
-        [
-          [1, 0, 0],
-          [1, 1, 1],
-        ], // J
-        [
-          [0, 0, 1],
-          [1, 1, 1],
-        ], // L
-      ];
-      const COLORS = [
-        "cyan",
-        "yellow",
-        "purple",
-        "green",
-        "red",
-        "blue",
-        "orange",
-      ];
-
-      window.onload = () => {
-        const savedState = localStorage.getItem("tetrisGameState");
-        if (savedState) {
-          gameState = JSON.parse(savedState);
-          continueBtn.style.display = "block";
-        }
-      };
-
-      document.querySelectorAll(".difficulty-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const level = btn.dataset.level;
-          if (level === "easy") dropInterval = 1000;
-          else if (level === "medium") dropInterval = 500;
-          else if (level === "hard") dropInterval = 300;
-          difficultyScreen.style.display = "none";
-          gameContainer.style.display = "flex";
-          startNewGame();
-        });
-      });
-
-      continueBtn.addEventListener("click", () => {
-        if (gameState) {
-          difficultyScreen.style.display = "none";
-          gameContainer.style.display = "flex";
-          resumeGame();
-        }
-      });
-
-      class Piece {
-        constructor() {
-          this.type = Math.floor(Math.random() * SHAPES.length);
-          this.shape = SHAPES[this.type];
-          this.color = COLORS[this.type];
-          this.x = Math.floor(COL / 2) - Math.floor(this.shape[0].length / 2);
-          this.y = 0;
-        }
-
-        draw() {
-          ctx.fillStyle = this.color;
-          this.shape.forEach((row, dy) => {
-            row.forEach((value, dx) => {
-              if (value) {
-                ctx.fillRect(
-                  (this.x + dx) * BLOCK_SIZE,
-                  (this.y + dy) * BLOCK_SIZE,
-                  BLOCK_SIZE - 1,
-                  BLOCK_SIZE - 1
-                );
-              }
-            });
-          });
-        }
-
-        move(dx, dy) {
-          if (!this.collides(dx, dy)) {
-            this.x += dx;
-            this.y += dy;
-          }
-        }
-
-        rotate() {
-          const rotated = this.shape[0].map((_, index) =>
-            this.shape.map((row) => row[index]).reverse()
-          );
-          if (!this.collides(0, 0, rotated)) {
-            this.shape = rotated;
-          }
-        }
-
-        collides(dx, dy, shape = this.shape) {
-          return shape.some((row, dy2) =>
-            row.some((value, dx2) => {
-              if (!value) return false;
-              const newX = this.x + dx + dx2;
-              const newY = this.y + dy + dy2;
-              return (
-                newX < 0 ||
-                newX >= COL ||
-                newY >= ROW ||
-                (newY >= 0 && board[newY][newX])
-              );
-            })
-          );
-        }
-      }
-
-      let piece;
-      let dropCounter = 0;
-      let lastTime = 0;
-
-      function drawBoard() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        board.forEach((row, y) => {
-          row.forEach((value, x) => {
-            if (value) {
-              ctx.fillStyle = value;
-              ctx.fillRect(
-                x * BLOCK_SIZE,
-                y * BLOCK_SIZE,
-                BLOCK_SIZE - 1,
-                BLOCK_SIZE - 1
-              );
-            }
-          });
-        });
-        piece.draw();
-      }
-
-      function update(time = 0) {
-        if (isPaused) return;
-
-        const deltaTime = time - lastTime;
-        lastTime = time;
-        dropCounter += deltaTime;
-
-        if (dropCounter > dropInterval) {
-          if (!piece.collides(0, 1)) {
-            piece.move(0, 1);
-          } else {
-            merge();
-            removeLines();
-            piece = new Piece();
-            if (piece.collides(0, 0)) {
-              alert("Game Over! Điểm: " + score);
-              resetGame();
-              return;
-            }
-          }
-          dropCounter = 0;
-        }
-        drawBoard();
-        scoreElement.textContent = `Điểm: ${score}`;
-        saveGameState();
-        requestAnimationFrame(update);
-      }
-
-      function merge() {
-        piece.shape.forEach((row, dy) => {
-          row.forEach((value, dx) => {
-            if (value) {
-              board[piece.y + dy][piece.x + dx] = piece.color;
-            }
-          });
-        });
-      }
-
-      function removeLines() {
-        let lines = 0;
-        board = board.filter((row) => {
-          if (row.every((cell) => cell)) {
-            lines++;
-            return false;
-          }
-          return true;
-        });
-        while (board.length < ROW) {
-          board.unshift(Array(COL).fill(0));
-        }
-        score += lines * 10;
-      }
-
-      // Keyboard controls
-      document.addEventListener("keydown", (e) => {
-        if (isPaused) return;
-        switch (e.key) {
-          case "ArrowLeft":
-            piece.move(-1, 0);
-            break;
-          case "ArrowRight":
-            piece.move(1, 0);
-            break;
-          case "ArrowDown":
-            piece.move(0, 1);
-            break;
-          case "ArrowUp":
-            piece.rotate();
-            break;
-        }
-        drawBoard();
-      });
-
-      // Touch controls
-      leftBtn.addEventListener("click", () => {
-        if (!isPaused) {
-          piece.move(-1, 0);
-          drawBoard();
-        }
-      });
-
-      rightBtn.addEventListener("click", () => {
-        if (!isPaused) {
-          piece.move(1, 0);
-          drawBoard();
-        }
-      });
-
-      downBtn.addEventListener("click", () => {
-        if (!isPaused) {
-          piece.move(0, 1);
-          drawBoard();
-        }
-      });
-
-      rotateBtn.addEventListener("click", () => {
-        if (!isPaused) {
-          piece.rotate();
-          drawBoard();
-        }
-      });
-
-      pauseBtn.addEventListener("click", () => {
-        isPaused = !isPaused;
-        pauseBtn.textContent = isPaused ? "Tiếp Tục" : "Tạm Dừng";
-        if (!isPaused) update();
-      });
-
-      menuBtn.addEventListener("click", () => {
-        isPaused = true;
-        saveGameState();
-        gameContainer.style.display = "none";
-        difficultyScreen.style.display = "block";
-        continueBtn.style.display = "block";
-      });
-
-      function saveGameState() {
-        gameState = {
-          board: board.map((row) => [...row]),
-          piece: { ...piece, shape: piece.shape.map((row) => [...row]) },
-          score: score,
-          dropCounter: dropCounter,
-          dropInterval: dropInterval,
-          lastTime: lastTime,
-        };
-        localStorage.setItem("tetrisGameState", JSON.stringify(gameState));
-      }
-
-      function resumeGame() {
-        const savedState = JSON.parse(localStorage.getItem("tetrisGameState"));
-        if (savedState) {
-          board = savedState.board.map((row) => [...row]);
-          piece = new Piece();
-          Object.assign(piece, savedState.piece);
-          piece.shape = savedState.piece.shape.map((row) => [...row]);
-          score = savedState.score;
-          dropCounter = savedState.dropCounter;
-          dropInterval = savedState.dropInterval;
-          lastTime = savedState.lastTime;
-          isPaused = false;
-          pauseBtn.textContent = "Tạm Dừng";
-          update();
-        }
-      }
-
-      function startNewGame() {
-        board = Array(ROW)
-          .fill()
-          .map(() => Array(COL).fill(0));
-        piece = new Piece();
-        score = 0;
-        dropCounter = 0;
-        lastTime = 0;
-        isPaused = false;
-        gameState = null;
-        localStorage.removeItem("tetrisGameState");
-        continueBtn.style.display = "none";
-        pauseBtn.textContent = "Tạm Dừng";
-        update();
-      }
-
-      function resetGame() {
-        gameContainer.style.display = "none";
-        difficultyScreen.style.display = "block";
-        continueBtn.style.display = "none";
-        localStorage.removeItem("tetrisGameState");
-        gameState = null;
-      }
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
