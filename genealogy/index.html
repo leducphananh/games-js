@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="vi" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gia Phả Dòng Họ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <button class="theme-toggle" id="theme-toggle">
+        <span class="t-icon" id="t-icon">🌙</span>
+        <span class="t-lbl" id="t-lbl">Tối</span>
+      </button>
+      <div class="header-ornament">❧ 世 代 傳 承 ❧</div>
+      <h1 id="site-title">Gia Phả <span id="family-name">Dòng Họ</span></h1>
+      <p class="header-sub" id="site-subtitle">Lưu truyền từ đời đầu tiên</p>
+      <div class="hdr-div"><span>✦</span></div>
+    </header>
+
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-view="list">☰ Danh Sách</button>
+      <button class="nav-tab" data-view="tree">🌳 Cây Gia Phả</button>
+      <button class="nav-tab" data-view="mindmap">🗺 Mind Map</button>
+    </nav>
+
+    <main class="main-wrap">
+      <!-- LIST -->
+      <section class="view-panel active" id="view-list">
+        <div class="controls-bar">
+          <div class="search-wrap">
+            <span class="s-icon">🔍</span>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Tìm tên, vai trò, quê quán…"
+            />
+          </div>
+          <select class="filter-sel" id="filter-gen">
+            <option value="">Tất cả thế hệ</option>
+          </select>
+          <select class="filter-sel" id="filter-gender">
+            <option value="">Nam &amp; Nữ</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+          </select>
+          <div class="stat-badge" id="stat-badge"></div>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="ldot" style="background: var(--male-bd)"></div>
+            Nam
+          </div>
+          <div class="legend-item">
+            <div class="ldot" style="background: var(--female-bd)"></div>
+            Nữ
+          </div>
+          <div class="legend-item">
+            <div
+              class="ldot"
+              style="background: var(--gold); opacity: 0.4"
+            ></div>
+            Đã mất
+          </div>
+        </div>
+        <div id="list-container"></div>
+      </section>
+
+      <!-- TREE -->
+      <section class="view-panel" id="view-tree">
+        <div class="controls-bar">
+          <button class="btn-sm" id="tree-expand">⊞ Mở rộng tất cả</button>
+          <button class="btn-sm" id="tree-collapse">⊟ Thu gọn tất cả</button>
+          <span
+            style="
+              font-size: 0.8rem;
+              font-style: italic;
+              color: var(--meta-clr);
+            "
+            >💡 Nhấn ⊕/⊖ trên node để thu gọn · Nhấn node để xem chi tiết</span
+          >
+        </div>
+        <div class="tree-wrap" id="tree-wrap">
+          <svg id="tree-svg"></svg>
+        </div>
+      </section>
+
+      <!-- MINDMAP -->
+      <section class="view-panel" id="view-mindmap">
+        <div class="mm-bar">
+          <select class="mm-root-sel" id="mm-root">
+            <option value="">-- Chọn gốc --</option>
+          </select>
+          <button class="btn-sm" id="mm-expand">⊞ Mở rộng tất cả</button>
+          <button class="btn-sm" id="mm-collapse">⊟ Thu gọn tất cả</button>
+        </div>
+        <div class="ot-wrap">
+          <div id="ot-root"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-ov" id="modal-ov">
+      <div class="modal-box">
+        <button class="modal-close" id="modal-close">✕</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
+
+    <button class="scroll-top" id="scroll-top">▲</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
